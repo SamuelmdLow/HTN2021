@@ -20,7 +20,7 @@ header
     text-align: center;
 
     /* colours */
-    background-color: #cccccc;
+    background-color: #54739E;
     color: black;
 }
 
@@ -36,7 +36,7 @@ nav
     padding: 1vw;
 
     /* colours */
-    background-color: #bbbbbb;
+    background-color: #233652;
     color: black;
 }
 
@@ -46,7 +46,19 @@ nav
     display: block;
 
     /* Dimensions */
+    margin: 35%;
     margin-top: 5vh;
+}
+
+a.nav-item
+{
+    color: black;
+    text-decoration: none;
+}
+
+a:link {
+  text-decoration: none;
+  color: black;
 }
 
 content
