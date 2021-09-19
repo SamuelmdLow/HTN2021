@@ -1,10 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+  <head>
+    {% block head %}
+    <meta charset="utf-8" />
+    
+    <link
+      rel="icon"
+      href="https://cdn.glitch.com/e72a559c-4938-468f-9d9f-8564a0ea74eb%2Fplom-tr-cn.png?v=1628472585745"
+    /> <!-- DDLC song asset -->
 
-</body>
+    <title>{{name}} - Website Name</title>
+
+    <!-- Meta tags for SEO and social sharing -->
+    <link rel="canonical" href="https://glitch-hello-website.glitch.me/" />
+
+    <!-- Import the webpage's stylesheet -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='editStyle.css')}}"
+    />
+
+    <!-- Import the webpage's javascript file-->
+    
+    {% endblock %}
+  </head>
+  
+  
+  <body>
+   
+    <!------------ Header ------------>
+    <header>
+      {{name}}
+    </header>
+    <!----------- Navigation --------->
+    <div style="position:absolute; width: 100%; height: 100%;">
+    
+    <tableOfContents>
+      {% block tableOfContents %} {% endblock %}
+    </tableOfContents>
+    
+    <!------------ Content ----------->
+    <content>
+      {% block content %} {% endblock %}
+
+    </content>
+    
+    </div>
+    
+  </body>
+  
 </html>

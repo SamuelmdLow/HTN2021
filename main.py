@@ -87,19 +87,19 @@ def getInfo(textbookId):
 
     chapters = CURSOR.execute('''
         SELECT
-            name,
-            num
+            name
         FROM 
             chapters
         WHERE
             textbookId = ?
+        ORDER BY
+            num ASC
     ;''',[textbookId]).fetchall()
 
-    data = [name]
+    data = [name,chapters]
 
-    for chapter in chapters:
-        chapterName = chapter[0]
-        chapterNum  = chapter[1]
+    content = []
+    for chapter in range(len(chapters)):
 
         chapterContent = CURSOR.execute('''
             SELECT
@@ -111,10 +111,10 @@ def getInfo(textbookId):
                 chapterNum = ?
             ORDER BY
                 sectionNum ASC
-        ;''',[textbookId,chapterNum]).fetchall()
+        ;''',[textbookId,chapter]).fetchall()
 
-        data.append(chapterContent)
-
+        content.append(chapterContent)
+    data.append(content)
     print(data)
     return data
 

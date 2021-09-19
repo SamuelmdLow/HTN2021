@@ -1,13 +1,102 @@
-{% extends "layout.html" %}
+{% extends "editLayout.html" %}
 
-{% block content%}
+{% block tableOfContents%}
 
-{% for chapter in data %}
-    
-    {% for section in chapter %}
-        {{section}}
+    {% for chapter in chapters %}
+        - {{chapter}}
     {% endfor %}
 
-{% endfor %}
+{% endblock %}
+
+{% block content%}
+<form>
+    <input type="hidden" id="chapters" name="chapters" value="">
+    <input type="hidden" id="contents" name="contents" value="">
+    <input type="submit" name="update">
+</form>
+
+<div id="content">
+    <h1>{{name}}</h1>
+    
+    {% for chapter in content %}
+    
+        {% for section in chapter %}
+            {{section}}
+        {% endfor %}
+    
+    {% endfor %}
+</div>
+
+<div class="addNew" onclick="newChapter()">
+    New Chapter
+</div>
+
+<div class="addNew" onclick="newSection('img')">
+    Img+Txt
+</div>
+
+<div class="addNew" onclick="newSection('vid')">
+    Vid+Txt
+</div>
+
+
+<script>
+    
+    var chapter = {{chapters|length}};
+    var section = {{content|last|length}};
+    function newChapter()
+    {
+        section = 0;
+        chapter = chapter + 1;
+    
+        const content = document.getElementById("content");
+        var x = document.createElement("INPUT");
+        x.setAttribute("type", "text");
+        x.setAttribute("class", "editChapter");
+        
+        id = "C" + chapter.toString() + "S" + section.toString();
+        x.setAttribute("id", id);
+        content.appendChild(x);
+        alert("hello among us man!")
+        update();
+    }
+    
+    function update()
+    {
+        var name = "{{name}}";
+        var c = [];
+        var Cnum = 1;
+        var s = [];
+        var sc = [];
+        var Snum = 0;
+        
+        var id = "C" + Cnum.toString() + "S" + Snum.toString();
+        elem = document.getElementById(id);
+
+        while (elem != null)
+        {
+            c[c.length] = elem.value;
+            Snum = Snum + 1;
+            id = "C" + Cnum.toString() + "S" + Snum.toString();
+            elem = document.getElementById(id);
+            while (elem != null)
+            {
+                sc[sc.length] = elem.value;
+                Snum = Snum + 1;
+            }
+            s[s.length] = sc;
+            sc = [];
+            Cnum = Cnum + 1;
+            Snum = 0;
+            id = "C" + Cnum.toString() + "S" + Snum.toString();
+            elem = document.getElementById(id);
+        }
+        
+        document.getElementById("chapters").value = c;
+        document.getElementById("contents").value = s;
+    }
+    
+</script>
 
 {% endblock %}
+

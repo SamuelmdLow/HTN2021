@@ -27,8 +27,9 @@ def edit(id):
     id = int(id)
     data = main.getInfo(id)
     name = data[0]
-    data.pop(0)
-    return render_template('edit.html', name=name, data=data)
+    chapters = data[1]
+    content = data[2]
+    return render_template('edit.html', name=name, chapters=chapters, content=content)
 
 # run the app
 if __name__ == "__main__":

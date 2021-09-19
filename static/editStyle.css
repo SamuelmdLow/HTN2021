@@ -1,0 +1,95 @@
+body
+{
+    margin: 0;
+    overflow: hidden;
+}
+
+header
+{
+    /* Properties */
+    position: fixed;
+    z-index: 20;
+
+    /* Dimensions */
+    width  : 100vw;
+    height : 20px;
+    padding: 1%;
+
+    /* Text */
+    text-align: center;
+
+    /* colours */
+    background-color: #cccccc;
+    color: black;
+}
+
+tableOfContents
+{
+    /* Properties */
+    position: absolute;
+
+    /* Dimensions */
+    height : 100%;
+    width  : 20%;
+    padding: 1vw;
+
+    /* Position */
+    left: 0;
+
+    /* colours */
+    background-color: #bbbbbb;
+    color: black;
+}
+
+.tool
+{
+    /* Properties */
+    display: block;
+
+    /* Dimensions */
+    margin-top: 5vh;
+}
+
+content
+{
+    /* Properties */
+    position: absolute;
+    display: inline;
+    overflow: auto;
+
+    /* Shape */
+    height: 100%;
+    width : 80%;
+    padding-top : 50px;
+    right: 0;
+
+    /* Text */
+    text-align: center;
+}
+
+.addNew
+{
+    /* Properties */
+    display: inline-block;
+    margin: auto;
+
+    /* Shape */
+
+    padding: 1%;
+    border-radius: 50px;
+
+    /* Colours */
+    background-color: #cfcfcf;
+    color: #ffffff;
+
+    /* Font */
+    font-size: 20px;
+}
+
+.editChapter
+{
+    font-size: 60px;
+    text-align: center;
+    margin: auto;
+    margin-bottom: 5%;
+}
