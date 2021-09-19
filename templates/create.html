@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block content%}
+
+<h1>Create Your Own Lesson!</h1>
+
+<a href="/create/new">
+    Create New Lesson
+</a>
+
+{% for title in books %}
+    <a href="/create/edit/{{title[0]}}"
+       class="box">
+        {{title[1]}}
+    </a>
+{% endfor %}
+
+{% endblock %}

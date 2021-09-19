@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content%}
+
+<h1>
+    New Lesson
+</h1>
+
+<form action="/create/new" method="post">
+  <label for="Lesson name">Lesson name:</label><br>
+  <input type="text" id="Lesson name" name="Lesson name"><br>
+
+  <label for="tags">Tags:</label><br>
+  <input type="text" id="tags" name="tags"><br>
+  
+  <input type="submit" value="Submit">
+</form>
+
+{% endblock %}

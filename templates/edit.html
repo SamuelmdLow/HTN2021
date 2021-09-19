@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block content%}
+
+{% for chapter in data %}
+    
+    {% for section in chapter %}
+        {{section}}
+    {% endfor %}
+
+{% endfor %}
+
+{% endblock %}
