@@ -76,6 +76,11 @@ def addTextbook(name):
     return index
 
 def getInfo(textbookId):
+
+    global CURSOR, CONNECTION
+
+    textbookId = int(textbookId)
+
     name = CURSOR.execute('''
         SELECT
             name
@@ -105,9 +110,10 @@ def getInfo(textbookId):
             SELECT
                 text
             FROM 
-                chapters
+                sections
             WHERE
-                textbookId = ?,
+                textbookId = ?
+            AND
                 chapterNum = ?
             ORDER BY
                 sectionNum ASC
@@ -129,6 +135,66 @@ def getUsersBooks():
             id DESC    
     ;''').fetchall()
     return books
+
+def update(id, chapters, contents):
+    global CURSOR, CONNECTION
+
+    print("thing")
+    chapters = chapters.split(",")
+    print(chapters)
+
+    print("thing2")
+    print(contents)
+
+    contents = contents.split("|")
+    if len(contents) > 0:
+        contents.pop(0)
+    contents = [i.split(",") for i in contents]
+    print(contents)
+
+    CURSOR.execute('''
+        DELETE FROM
+            chapters
+        WHERE
+            textbookId = ?
+    ;''',[id])
+
+    for i in range(len(chapters)):
+        CURSOR.execute('''
+            INSERT INTO
+                chapters(
+                   textbookId,
+                   num,
+                   name 
+                )
+            VALUES(
+                ?, ?, ?
+            )
+        ;''', [id, i, chapters[i]])
+
+    CURSOR.execute('''
+        DELETE FROM
+            sections
+        WHERE
+            textbookId = ?
+    ;''',[id])
+
+    for chapter in range(len(contents)):
+        for section in range(len(contents[chapter])):
+            print(contents[chapter][section])
+            CURSOR.execute('''
+                  INSERT INTO
+                      sections(
+                         textbookId,
+                         chapterNum,
+                         sectionNum,
+                         text 
+                      )
+                  VALUES(
+                      ?, ?, ?, ?
+                  )
+            ;''', [id, chapter, section, contents[chapter][section]])
+    CONNECTION.commit()
 
 if FIRST_RUN == True:
     createDatabase()

@@ -1,0 +1,29 @@
+{% extends "editLayout.html" %}
+
+{% block tableOfContents%}
+
+    {% for chapter in chapters %}
+        <div class="toc">
+            - {{chapter[0]}}
+        </div>
+    {% endfor %}
+
+{% endblock %}
+
+{% block content%}
+
+
+<div id="content">
+    
+    {% for chapter in content %}
+        {% set CH = loop.index %}
+        <div class="editChapter">{{chapters[loop.index0][0]}}</div>
+        
+        {% for section in chapter %}
+          <div class="editText">{{section[0]}}</div>
+        {% endfor %}
+    {% endfor %}
+</div>
+
+{% endblock %}
+

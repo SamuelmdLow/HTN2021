@@ -32,6 +32,7 @@ tableOfContents
     height : 100%;
     width  : 20%;
     padding: 1vw;
+    padding-top: 10vh;
 
     /* Position */
     left: 0;
@@ -39,6 +40,12 @@ tableOfContents
     /* colours */
     background-color: #bbbbbb;
     color: black;
+}
+
+.toc
+{
+    display: block;
+    font-size: 30px;
 }
 
 .tool
@@ -88,8 +95,34 @@ content
 
 .editChapter
 {
+    width: 80%;
+    display: block;
     font-size: 60px;
     text-align: center;
     margin: auto;
     margin-bottom: 5%;
+}
+
+.editText
+{
+    display: block;
+    font-size: 20px;
+    text-align: center;
+    margin: auto;
+    margin-bottom: 5%;
+}
+
+#update
+{
+    padding: 1%;
+    border-radius: 50px;
+    background-color: #cfcfcf;
+    color: #ffffff;
+    width: 10%;
+    margin: auto;
+}
+
+#update:hover
+{
+    cursor: pointer;
 }

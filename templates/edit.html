@@ -3,25 +3,40 @@
 {% block tableOfContents%}
 
     {% for chapter in chapters %}
-        - {{chapter}}
+        <div class="toc">
+            - {{chapter[0]}}
+        </div>
     {% endfor %}
 
 {% endblock %}
 
 {% block content%}
-<form>
+<form id="info" method="post">
     <input type="hidden" id="chapters" name="chapters" value="">
     <input type="hidden" id="contents" name="contents" value="">
-    <input type="submit" name="update">
 </form>
+
+<div class="addNew">
+    back
+</div>
+
+<div class="addNew" onclick="update()">
+    Update
+</div>
+
+<a href="/view/{{id}}" class="addNew" onclick="update()">
+    View
+</a>
 
 <div id="content">
     <h1>{{name}}</h1>
     
     {% for chapter in content %}
-    
+        {% set CH = loop.index %}
+        <input type="text " id="C{{CH}}S0" value="{{chapters[loop.index0][0]}}" class="editChapter">
+        
         {% for section in chapter %}
-            {{section}}
+            <input type="text " id="C{{CH}}S{{loop.index}}" value="{{section[0]}}" class="editText">
         {% endfor %}
     
     {% endfor %}
@@ -44,6 +59,7 @@
     
     var chapter = {{chapters|length}};
     var section = {{content|last|length}};
+    
     function newChapter()
     {
         section = 0;
@@ -57,8 +73,20 @@
         id = "C" + chapter.toString() + "S" + section.toString();
         x.setAttribute("id", id);
         content.appendChild(x);
-        alert("hello among us man!")
-        update();
+    }
+    
+    function newSection(type)
+    {
+        section = section + 1;
+        
+        const content = document.getElementById("content");
+        var x = document.createElement("INPUT");
+        x.setAttribute("type", "text");
+        x.setAttribute("class", "editText");
+        
+        id = "C" + chapter.toString() + "S" + section.toString();
+        x.setAttribute("id", id);
+        content.appendChild(x);
     }
     
     function update()
@@ -66,7 +94,7 @@
         var name = "{{name}}";
         var c = [];
         var Cnum = 1;
-        var s = [];
+        var s = "";
         var sc = [];
         var Snum = 0;
         
@@ -83,8 +111,10 @@
             {
                 sc[sc.length] = elem.value;
                 Snum = Snum + 1;
+                id = "C" + Cnum.toString() + "S" + Snum.toString();
+                elem = document.getElementById(id);
             }
-            s[s.length] = sc;
+            s = s + "|" + sc;
             sc = [];
             Cnum = Cnum + 1;
             Snum = 0;
@@ -93,7 +123,11 @@
         }
         
         document.getElementById("chapters").value = c;
+        alert(c);
+        alert(s);
         document.getElementById("contents").value = s;
+        document.getElementById("info").submit();
+        alert("updated!");
     }
     
 </script>
