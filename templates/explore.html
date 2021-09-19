@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block content%}
+
+<h1>Explore!</h1>
+
+{% for title in books %}
+    <a href="/view/{{title[0]}}"
+       class="box">
+        {{title[1]}}
+    </a>
+{% endfor %}
+
+{% endblock %}

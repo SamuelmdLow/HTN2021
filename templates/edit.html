@@ -16,9 +16,9 @@
     <input type="hidden" id="contents" name="contents" value="">
 </form>
 
-<div class="addNew">
+<a href="/create" class="addNew">
     back
-</div>
+</a>
 
 <div class="addNew" onclick="update()">
     Update
@@ -123,11 +123,8 @@
         }
         
         document.getElementById("chapters").value = c;
-        alert(c);
-        alert(s);
         document.getElementById("contents").value = s;
         document.getElementById("info").submit();
-        alert("updated!");
     }
     
 </script>

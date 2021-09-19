@@ -55,6 +55,12 @@ def view(id):
 
     return render_template('view.html',id=id, name=name, chapters=chapters, content=content)
 
+@app.route('/explore')
+def explore():
+    books = main.getUsersBooks()
+
+    return  render_template('explore.html', books=books,name="explore")
+
 # run the app
 if __name__ == "__main__":
     app.run(debug=True)
