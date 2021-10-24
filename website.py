@@ -27,22 +27,19 @@ def edit(id):
     id = int(id)
     data = main.getInfo(id)
     name = data[0]
-    chapters = data[1]
-    content = data[2]
+    content = data[1]
 
     if request.method == 'POST':
-        print(request.form['chapters'])
         print("content")
         print(request.form['contents'])
-        main.update(id,request.form['chapters'], request.form['contents'])
+        main.update(id, request.form['contents'])
 
         id = int(id)
         data = main.getInfo(id)
         name = data[0]
-        chapters = data[1]
-        content = data[2]
+        content = data[1]
 
-    return render_template('edit.html',id=id, name=name, chapters=chapters, content=content)
+    return render_template('edit.html',id=id, name=name, content=content)
 
 @app.route('/view/<id>', methods=['GET','POST'])
 def view(id):
@@ -50,10 +47,9 @@ def view(id):
     id = int(id)
     data = main.getInfo(id)
     name = data[0]
-    chapters = data[1]
-    content = data[2]
+    content = data[1]
 
-    return render_template('view.html',id=id, name=name, chapters=chapters, content=content)
+    return render_template('view.html',id=id, name=name, content=content)
 
 @app.route('/explore')
 def explore():

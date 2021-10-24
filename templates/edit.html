@@ -1,15 +1,5 @@
 {% extends "editLayout.html" %}
 
-{% block tableOfContents%}
-
-    {% for chapter in chapters %}
-        <div class="toc">
-            - {{chapter[0]}}
-        </div>
-    {% endfor %}
-
-{% endblock %}
-
 {% block content%}
 <form id="info" method="post">
     <input type="hidden" id="chapters" name="chapters" value="">
@@ -31,98 +21,95 @@
 <div id="content">
     <h1>{{name}}</h1>
     
-    {% for chapter in content %}
-        {% set CH = loop.index %}
-        <input type="text " id="C{{CH}}S0" value="{{chapters[loop.index0][0]}}" class="editChapter">
-        
-        {% for section in chapter %}
-            <input type="text " id="C{{CH}}S{{loop.index}}" value="{{section[0]}}" class="editText">
-        {% endfor %}
-    
+    {% for section in content %}
+        <div id="S{{loop.index0}}" class="{{section[0]}}">
+            {% if section[0] == "CH" %}
+                <input id="0V{{loop.index0}}" type="text" value="{{section[1]}}" class="editChapter">
+            {% elif section[0] == "TXT" %}
+                <input id="0V{{loop.index0}}" type="text" value="{{section[1]}}" class="editText">
+            {% endif %}
+        </div>
     {% endfor %}
+    
 </div>
 
 <div class="addNew" onclick="newChapter()">
-    New Chapter
+    CH
 </div>
 
-<div class="addNew" onclick="newSection('img')">
-    Img+Txt
+<div class="addNew" onclick="newText()">
+    TXT
 </div>
-
-<div class="addNew" onclick="newSection('vid')">
-    Vid+Txt
-</div>
-
 
 <script>
     
-    var chapter = {{chapters|length}};
-    var section = {{content|last|length}};
+    var section = {{content|length}} - 1;
     
     function newChapter()
     {
-        section = 0;
-        chapter = chapter + 1;
-    
+        section = section + 1;
         const content = document.getElementById("content");
-        var x = document.createElement("INPUT");
-        x.setAttribute("type", "text");
-        x.setAttribute("class", "editChapter");
         
-        id = "C" + chapter.toString() + "S" + section.toString();
-        x.setAttribute("id", id);
-        content.appendChild(x);
+        var div = document.createElement("DIV");
+        id = "S" + section.toString();
+        div.setAttribute("id", id);
+        div.setAttribute("class", "CH");
+        
+        var input = document.createElement("INPUT");
+        input.setAttribute("type", "text");
+        input.setAttribute("class", "editChapter");
+        input.setAttribute("id", "0V" + section.toString())
+        div.appendChild(input)
+        
+        content.appendChild(div);
     }
     
-    function newSection(type)
+    function newText()
     {
         section = section + 1;
         
         const content = document.getElementById("content");
-        var x = document.createElement("INPUT");
-        x.setAttribute("type", "text");
-        x.setAttribute("class", "editText");
+        var div = document.createElement("DIV");
+        id = "S" + section.toString();
+        div.setAttribute("id", id);
+        div.setAttribute("class", "TXT");
         
-        id = "C" + chapter.toString() + "S" + section.toString();
-        x.setAttribute("id", id);
-        content.appendChild(x);
+        var input = document.createElement("INPUT");
+        input.setAttribute("type", "text");
+        input.setAttribute("class", "editText");
+        input.setAttribute("id", "0V" + section.toString())
+        div.appendChild(input)
+        
+        content.appendChild(div);
     }
     
     function update()
     {
         var name = "{{name}}";
-        var c = [];
-        var Cnum = 1;
         var s = "";
-        var sc = [];
         var Snum = 0;
         
-        var id = "C" + Cnum.toString() + "S" + Snum.toString();
-        elem = document.getElementById(id);
-
+        var id = "S" + Snum.toString();
+        var elem = document.getElementById(id);
+        
         while (elem != null)
         {
-            c[c.length] = elem.value;
-            Snum = Snum + 1;
-            id = "C" + Cnum.toString() + "S" + Snum.toString();
-            elem = document.getElementById(id);
-            while (elem != null)
+            s = s + "|" + elem.className;
+            v = 0;
+            info = document.getElementById(v.toString() + "V" + Snum.toString());
+            while (info != null)
             {
-                sc[sc.length] = elem.value;
-                Snum = Snum + 1;
-                id = "C" + Cnum.toString() + "S" + Snum.toString();
-                elem = document.getElementById(id);
+                s = s + "," + info.value;
+                v = v + 1;
+                info = document.getElementById(v.toString() + "V" + Snum.toString());
             }
-            s = s + "|" + sc;
-            sc = [];
-            Cnum = Cnum + 1;
-            Snum = 0;
-            id = "C" + Cnum.toString() + "S" + Snum.toString();
+            
+            Snum = Snum + 1;
+            id = "S" + Snum.toString();
             elem = document.getElementById(id);
         }
         
-        document.getElementById("chapters").value = c;
+        console.log(s);
         document.getElementById("contents").value = s;
         document.getElementById("info").submit();
     }

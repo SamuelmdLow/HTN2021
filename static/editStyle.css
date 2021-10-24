@@ -1,7 +1,7 @@
 body
 {
     margin: 0;
-    overflow: hidden;
+    overflow: auto;
 }
 
 header
@@ -62,11 +62,10 @@ content
     /* Properties */
     position: absolute;
     display: inline;
-    overflow: auto;
+    overflow: hidden;
 
     /* Shape */
-    height: 100%;
-    width : 80%;
+    width : 100%;
     padding-top : 50px;
     right: 0;
 
@@ -79,6 +78,7 @@ content
     /* Properties */
     display: inline-block;
     margin: auto;
+    margin-bottom: 5%;
 
     /* Shape */
 
@@ -105,9 +105,10 @@ content
 
 .editText
 {
+    width: 80%;
     display: block;
     font-size: 20px;
-    text-align: center;
+    text-align: left;
     margin: auto;
     margin-bottom: 5%;
 }

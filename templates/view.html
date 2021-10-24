@@ -18,13 +18,19 @@
 
 <div id="content">
     
-    {% for chapter in content %}
-        {% set CH = loop.index %}
-        <div class="editChapter">{{chapters[loop.index0][0]}}</div>
-        
-        {% for section in chapter %}
-          <div class="editText">{{section[0]}}</div>
-        {% endfor %}
+    {% for section in content %}
+        {% if section[0] == "CH" %}
+            <div class="editChapter">
+                {{section[1]}}
+            </div>
+
+        {% elif section[0] == "TXT" %}
+            <div class="editText">
+                {{section[1]}}
+            </div>
+        {% else %}
+            {{section[0]}}
+        {% endif %}
     {% endfor %}
 </div>
 

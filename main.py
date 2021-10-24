@@ -23,20 +23,11 @@ def createDatabase():
 
     CURSOR.execute('''
         CREATE TABLE
-            chapters (
-                textbookId INTEGER,
-                num INTEGER,
-                name TEXT
-            )           
-    ;''')
-
-    CURSOR.execute('''
-        CREATE TABLE
             sections (
                 textbookId INTEGER,
-                chapterNum INTEGER,
                 sectionNum INTEGER,
-                text TEXT
+                type TEXT,
+                content TEXT
             )           
     ;''')
 
@@ -90,37 +81,21 @@ def getInfo(textbookId):
             id = ?
     ;''',[textbookId]).fetchone()[0]
 
-    chapters = CURSOR.execute('''
+    data = [name]
+
+    content = CURSOR.execute('''
         SELECT
-            name
+            type, content
         FROM 
-            chapters
+            sections
         WHERE
             textbookId = ?
         ORDER BY
-            num ASC
+            sectionNum ASC
     ;''',[textbookId]).fetchall()
 
-    data = [name,chapters]
-
-    content = []
-    for chapter in range(len(chapters)):
-
-        chapterContent = CURSOR.execute('''
-            SELECT
-                text
-            FROM 
-                sections
-            WHERE
-                textbookId = ?
-            AND
-                chapterNum = ?
-            ORDER BY
-                sectionNum ASC
-        ;''',[textbookId,chapter]).fetchall()
-
-        content.append(chapterContent)
     data.append(content)
+
     print(data)
     return data
 
@@ -136,12 +111,8 @@ def getUsersBooks():
     ;''').fetchall()
     return books
 
-def update(id, chapters, contents):
+def update(id, contents):
     global CURSOR, CONNECTION
-
-    print("thing")
-    chapters = chapters.split(",")
-    print(chapters)
 
     print("thing2")
     print(contents)
@@ -149,28 +120,8 @@ def update(id, chapters, contents):
     contents = contents.split("|")
     if len(contents) > 0:
         contents.pop(0)
-    contents = [i.split(",") for i in contents]
+    contents = [[i[0:i.index(",")],i[i.index(",")+1:len(i)]] for i in contents]
     print(contents)
-
-    CURSOR.execute('''
-        DELETE FROM
-            chapters
-        WHERE
-            textbookId = ?
-    ;''',[id])
-
-    for i in range(len(chapters)):
-        CURSOR.execute('''
-            INSERT INTO
-                chapters(
-                   textbookId,
-                   num,
-                   name 
-                )
-            VALUES(
-                ?, ?, ?
-            )
-        ;''', [id, i, chapters[i]])
 
     CURSOR.execute('''
         DELETE FROM
@@ -179,21 +130,20 @@ def update(id, chapters, contents):
             textbookId = ?
     ;''',[id])
 
-    for chapter in range(len(contents)):
-        for section in range(len(contents[chapter])):
-            print(contents[chapter][section])
-            CURSOR.execute('''
-                  INSERT INTO
-                      sections(
-                         textbookId,
-                         chapterNum,
-                         sectionNum,
-                         text 
-                      )
-                  VALUES(
-                      ?, ?, ?, ?
+    for section in range(len(contents)):
+        print(contents[section])
+        CURSOR.execute('''
+              INSERT INTO
+                  sections(
+                     textbookId,
+                     sectionNum,
+                     type,
+                     content
                   )
-            ;''', [id, chapter, section, contents[chapter][section]])
+              VALUES(
+                  ?, ?, ?, ?
+              )
+        ;''', [id, section, contents[section][0], contents[section][1]])
     CONNECTION.commit()
 
 if FIRST_RUN == True:
