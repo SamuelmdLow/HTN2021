@@ -22,13 +22,21 @@
     <h1>{{name}}</h1>
     
     {% for section in content %}
-        <div id="S{{loop.index0}}" class="{{section[0]}}">
+        <section id="S{{loop.index0}}" class="{{section[0]}}">
+            <div style="margin:1%;" onmouseenter="buttons(this);" onmouseleave="setTimeout(removeButtons, 250, this);">
+                <div class="addNew">
+                    Add
+                </div>
+            </div>
             {% if section[0] == "CH" %}
                 <input id="0V{{loop.index0}}" type="text" value="{{section[1]}}" class="editChapter">
             {% elif section[0] == "TXT" %}
                 <input id="0V{{loop.index0}}" type="text" value="{{section[1]}}" class="editText">
+            {% elif section[0] == "DEF" %}
+                <input id="0V{{loop.index0}}" type="text" value="{{section[1]}}" class="editDef"> <span class="editDef">: </span>
+                <input id="1V{{loop.index0}}" type="text" value="{{section[2]}}" class="editText">
             {% endif %}
-        </div>
+        </section>
     {% endfor %}
     
 </div>
@@ -41,75 +49,128 @@
     TXT
 </div>
 
+<div class="addNew" onclick="newDefinition()">
+    DEF
+</div>
+
 <script>
     
     var section = {{content|length}} - 1;
     
+    function insertSection(button, elem)
+    {
+        const content = document.getElementById("content");
+        index = content.children.indexOf(button.parentElement.parentElement);
+        content.insertBefore(elem, content.children[index+1]);
+    }
+    
+    function removeButtons(elem)
+    {
+        while (elem.children.length > 0) {
+            elem.removeChild(elem.children[0]);
+        }
+        
+        var ADD = document.createElement("DIV");
+        ADD.setAttribute("class", "addNew");
+        ADD.innerHTML = "ADD";
+        elem.appendChild(ADD);
+    }
+    
+    function buttons(elem)
+    {
+        while (elem.children.length > 0) {
+            elem.removeChild(elem.children[0]);
+        }
+        
+        var CH = document.createElement("DIV");
+        CH.setAttribute("class", "addNew");
+        CH.setAttribute("onclick", "insertSection(this,newChapter())");
+        CH.innerHTML = "CH";
+        
+        var TXT = document.createElement("DIV");
+        TXT.setAttribute("class", "addNew");
+        TXT.setAttribute("onclick", "insertSection(this,newText())");
+        TXT.innerHTML = "TXT";
+        
+        var DEF = document.createElement("DIV");
+        DEF.setAttribute("class", "addNew");
+        DEF.setAttribute("onclick", "insertSection(this,newDefinition())");
+        DEF.innerHTML = "DEF";
+        
+        elem.appendChild(CH);
+        elem.appendChild(TXT);
+        elem.appendChild(DEF);
+    }
+    
     function newChapter()
     {
-        section = section + 1;
-        const content = document.getElementById("content");
-        
-        var div = document.createElement("DIV");
-        id = "S" + section.toString();
-        div.setAttribute("id", id);
+        var div = document.createElement("SECTION");
         div.setAttribute("class", "CH");
         
         var input = document.createElement("INPUT");
         input.setAttribute("type", "text");
         input.setAttribute("class", "editChapter");
-        input.setAttribute("id", "0V" + section.toString())
+        
         div.appendChild(input)
         
-        content.appendChild(div);
+        return div;
     }
     
     function newText()
     {
-        section = section + 1;
-        
-        const content = document.getElementById("content");
-        var div = document.createElement("DIV");
-        id = "S" + section.toString();
-        div.setAttribute("id", id);
+        var div = document.createElement("SECTION");
         div.setAttribute("class", "TXT");
         
         var input = document.createElement("INPUT");
         input.setAttribute("type", "text");
         input.setAttribute("class", "editText");
-        input.setAttribute("id", "0V" + section.toString())
+        
         div.appendChild(input)
         
-        content.appendChild(div);
+        return div;
+    }
+    
+    function newDefinition()
+    {
+        var div = document.createElement("SECTION");
+        div.setAttribute("class", "DEF");
+        
+        var input1 = document.createElement("INPUT");
+        input1.setAttribute("type", "text");
+        input1.setAttribute("class", "editDef");
+
+        div.appendChild(input1)
+
+        var input2 = document.createElement("INPUT");
+        input2.setAttribute("type", "text");
+        input2.setAttribute("class", "editText");
+
+        div.appendChild(input2)
+        
+        return div;
     }
     
     function update()
     {
-        var name = "{{name}}";
         var s = "";
-        var Snum = 0;
+        var content = document.getElementById("content").children;
         
-        var id = "S" + Snum.toString();
-        var elem = document.getElementById(id);
-        
-        while (elem != null)
+        for (let a = 0; a < content.length; a++)
         {
-            s = s + "|" + elem.className;
-            v = 0;
-            info = document.getElementById(v.toString() + "V" + Snum.toString());
-            while (info != null)
+            if (content[a].tagName == "SECTION")
             {
-                s = s + "," + info.value;
-                v = v + 1;
-                info = document.getElementById(v.toString() + "V" + Snum.toString());
+                s = s + "|" + content[a].className;
+                elems = content[a].children;
+                for (let b = 0; b < elems.length; b++)
+                {
+                    if (typeof elems[b].value != "undefined")
+                    {
+                        s = s + "," + elems[b].value;
+                    }
+                }
             }
-            
-            Snum = Snum + 1;
-            id = "S" + Snum.toString();
-            elem = document.getElementById(id);
         }
         
-        console.log(s);
         document.getElementById("contents").value = s;
         document.getElementById("info").submit();
     }

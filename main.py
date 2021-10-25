@@ -26,7 +26,6 @@ def createDatabase():
             sections (
                 textbookId INTEGER,
                 sectionNum INTEGER,
-                type TEXT,
                 content TEXT
             )           
     ;''')
@@ -85,7 +84,7 @@ def getInfo(textbookId):
 
     content = CURSOR.execute('''
         SELECT
-            type, content
+            content
         FROM 
             sections
         WHERE
@@ -93,7 +92,9 @@ def getInfo(textbookId):
         ORDER BY
             sectionNum ASC
     ;''',[textbookId]).fetchall()
-
+    print(content)
+    content = [i[0].split(",") for i in content]
+    print(content)
     data.append(content)
 
     print(data)
@@ -120,7 +121,6 @@ def update(id, contents):
     contents = contents.split("|")
     if len(contents) > 0:
         contents.pop(0)
-    contents = [[i[0:i.index(",")],i[i.index(",")+1:len(i)]] for i in contents]
     print(contents)
 
     CURSOR.execute('''
@@ -137,13 +137,12 @@ def update(id, contents):
                   sections(
                      textbookId,
                      sectionNum,
-                     type,
                      content
                   )
               VALUES(
-                  ?, ?, ?, ?
+                  ?, ?, ?
               )
-        ;''', [id, section, contents[section][0], contents[section][1]])
+        ;''', [id, section, contents[section]])
     CONNECTION.commit()
 
 if FIRST_RUN == True:

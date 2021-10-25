@@ -20,14 +20,18 @@
     
     {% for section in content %}
         {% if section[0] == "CH" %}
-            <div class="editChapter">
+            <section class="editChapter">
                 {{section[1]}}
-            </div>
+            </section>
 
         {% elif section[0] == "TXT" %}
-            <div class="editText">
+            <section class="Text">
                 {{section[1]}}
-            </div>
+            </section>
+        {% elif section[0] == "DEF" %}
+            <section class="Text">
+                <span class="def">{{section[1]}}: </span>{{section[2]}}
+            </section>
         {% else %}
             {{section[0]}}
         {% endif %}
