@@ -1,2 +1,2 @@
-# HTN2021
-Website that attempts to replace the textbook! Created for Hack the North 2021.
+# Textbook Website
+Website that attempts to replace the textbook! Creation started during Hack the North 2021.
