@@ -56,12 +56,24 @@
 <script>
     
     var section = {{content|length}} - 1;
+
+    var ADD_BAR = document.createElement("DIV");
+    ADD_BAR.setAttribute("onmouseenter", "button(this)");
+    ADD_BAR.setAttribute("onmouseleave", "setTimeout(removeButtons, 250, this)");
+    ADD_BAR.setAttribute("style", "margin:1%;");
+    
+    var ADD = document.createElement("DIV");
+    ADD.setAttribute("class", "addNew");
+    ADD.innerHTML = "Add";
+    
+    ADD_BAR.appendChild(ADD);
+    
     
     function insertSection(button, elem)
     {
         const content = document.getElementById("content");
-        index = content.children.indexOf(button.parentElement.parentElement);
-        content.insertBefore(elem, content.children[index+1]);
+        index = Array.prototype.indexOf.call(content.children, button.parentElement.parentElement)
+        content.insertBefore(elem, content.children[index]);
     }
     
     function removeButtons(elem)
@@ -111,6 +123,7 @@
         input.setAttribute("type", "text");
         input.setAttribute("class", "editChapter");
         
+        div.appendChild(ADD_BAR);
         div.appendChild(input)
         
         return div;
@@ -125,6 +138,7 @@
         input.setAttribute("type", "text");
         input.setAttribute("class", "editText");
         
+        div.appendChild(ADD_BAR);
         div.appendChild(input)
         
         return div;
@@ -139,12 +153,14 @@
         input1.setAttribute("type", "text");
         input1.setAttribute("class", "editDef");
 
-        div.appendChild(input1)
+        
 
         var input2 = document.createElement("INPUT");
         input2.setAttribute("type", "text");
         input2.setAttribute("class", "editText");
-
+        
+        div.appendChild(ADD_BAR);
+        div.appendChild(input1)
         div.appendChild(input2)
         
         return div;
