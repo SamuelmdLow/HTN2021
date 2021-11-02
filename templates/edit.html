@@ -1,22 +1,25 @@
 {% extends "editLayout.html" %}
 
+{% block header %}
+<a href="/create" style="position:relative; right:30%;" class="addNew">
+    back
+</a>
+
+{{name}}
+<div class="addNew" style="position:relative; left:10%;" onclick="update()">
+    Update
+</div>
+<a href="/view/{{id}}" style="position:relative; left:10%;" class="addNew" onclick="update()">
+    View
+</a>
+{% endblock %}
+
 {% block content%}
 <form id="info" method="post">
     <input type="hidden" id="chapters" name="chapters" value="">
     <input type="hidden" id="contents" name="contents" value="">
 </form>
 
-<a href="/create" class="addNew">
-    back
-</a>
-
-<div class="addNew" onclick="update()">
-    Update
-</div>
-
-<a href="/view/{{id}}" class="addNew" onclick="update()">
-    View
-</a>
 
 <div id="content">
     <h1>{{name}}</h1>

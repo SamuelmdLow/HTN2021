@@ -1,5 +1,15 @@
 {% extends "editLayout.html" %}
 
+{% block header %}
+<a href="/explore" style="position:relative; right:30%;" class="addNew">
+    back to explore
+</a>
+{{name}}
+<a href="/create/edit/{{id}}" style="position:relative; left: 10%;" class="addNew">
+    edit
+</a>
+{% endblock %}
+
 {% block tableOfContents%}
 
     {% for chapter in chapters %}
@@ -11,10 +21,6 @@
 {% endblock %}
 
 {% block content%}
-
-<a href="/create/edit/{{id}}" class="addNew">
-    edit
-</a>
 
 <div id="content">
     

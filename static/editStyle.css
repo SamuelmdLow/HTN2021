@@ -2,6 +2,7 @@ body
 {
     margin: 0;
     overflow: auto;
+    font-family: 'Atkinson Hyperlegible', sans-serif;
 }
 
 header
@@ -12,14 +13,12 @@ header
 
     /* Dimensions */
     width  : 100vw;
-    height : 20px;
-    padding: 1%;
 
     /* Text */
     text-align: center;
 
     /* colours */
-    background-color: #cccccc;
+    background-color: #8fb8f5;
     color: black;
 }
 
@@ -66,7 +65,8 @@ content
 
     /* Shape */
     width : 100%;
-    padding-top : 50px;
+    padding-top : 5%;
+    padding-bottom: 50px;
     right: 0;
 
     /* Text */
@@ -84,7 +84,8 @@ section
     /* Properties */
     display: inline-block;
     margin: auto;
-    margin-bottom: 1%;
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
 
     /* Shape */
 
@@ -92,7 +93,7 @@ section
     border-radius: 50px;
 
     /* Colours */
-    background-color: #cfcfcf;
+    background-color: #b0caf0;
     color: #ffffff;
 
     /* Font */
@@ -108,7 +109,7 @@ section
 .editChapter
 {
     width: 100%;
-    font-size: 60px;
+    font-size: 40px;
     text-align: center;
     margin: auto;
     margin-top: 2%;
@@ -136,7 +137,7 @@ section
 .editDef
 {
     float:left;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: bold;
     width: auto;
     margin-top: 2%;
@@ -145,7 +146,7 @@ section
 
 .def
 {
-    font-size: 30px;
+    font-size: 25px;
     font-weight: bold;
     width: auto;
 }
